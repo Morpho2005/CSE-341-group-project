@@ -1,0 +1,19 @@
+{
+  "name": "school_management_api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "team 5",
+  "license": "ISC",
+  "description": "The School Management API will provide a comprehensive backend system for managing essential data within a school environment",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongo": "^0.1.0"
+  }
+}
