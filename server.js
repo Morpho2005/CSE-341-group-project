@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 
-const mongodb = require('./data/database');
-const bodyParser = require('body-parser');
+const mongodb = require("./data/database");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-app.use('/', require('./routes'));
+app.use("/", require("./routes"));
 
 mongodb.initDb((err) => {
   if (err) {
@@ -17,4 +17,3 @@ mongodb.initDb((err) => {
     console.log(`Connected to DB and listening on ${port}`);
   }
 });
-
