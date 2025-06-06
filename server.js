@@ -7,6 +7,7 @@ const express = require("express");
 const app = express();
 const routes = require("./routes");
 const { connectDB } = require("./data/database");
+const setupSwagger = require("./swagger-doc/swagger-config");
 const cors = require("cors");
 
 // Middleware
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use(cors());
 app.use("/api", routes);
 
+// Swagger documentation
+setupSwagger(app);
 const PORT = process.env.PORT || 3000;
 
 //Start server
@@ -22,6 +25,9 @@ async function startServer() {
     await connectDB();
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(
+        `Swagger documentation is available at http://localhost:${PORT}/api-docs`
+      );
     });
   } catch (error) {
     console.error("Error starting server:", error);
