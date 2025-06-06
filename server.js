@@ -1,19 +1,30 @@
+//Require env
+require("dotenv").config();
+
+// Importing required modules
 const express = require("express");
-
-const mongodb = require("./data/database");
-const bodyParser = require("body-parser");
-
+//Express app initialization
 const app = express();
+const routes = require("./routes");
+const { connectDB } = require("./data/database");
+const cors = require("cors");
 
-const port = process.env.PORT || 3000;
+// Middleware
+app.use(express.json());
+app.use(cors());
+app.use("/api", routes);
 
-app.use("/", require("./routes"));
+const PORT = process.env.PORT || 3000;
 
-mongodb.initDb((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    app.listen(port);
-    console.log(`Connected to DB and listening on ${port}`);
+//Start server
+async function startServer() {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Error starting server:", error);
   }
-});
+}
+startServer();
