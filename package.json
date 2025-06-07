@@ -14,6 +14,7 @@
   "description": "The School Management API will provide a comprehensive backend system for managing essential data within a school environment",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "bson": "^6.10.4",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
