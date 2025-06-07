@@ -108,7 +108,7 @@ router.post("/", staffController.createStaff);
  *       404:
  *         description: Staff not found
  */
-router.put("/", staffController.updateById);
+router.put("/:id", staffController.updateById);
 
 /**
  * @swagger
