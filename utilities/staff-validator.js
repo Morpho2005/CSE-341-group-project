@@ -1,8 +1,8 @@
 const { body, validationResult } = require("express-validator");
-
+const staffModel = require("../models/staffModel");
 const validate = {};
 
-validate.studentValidationRules = () => {
+validate.staffValidationRules = () => {
   return [
     body("firstName")
       .notEmpty()
@@ -18,6 +18,11 @@ validate.studentValidationRules = () => {
       .withMessage("Last name must be at least 2 characters long.")
       .trim(),
 
+    body("gender")
+      .optional()
+      .isIn(["male", "female"])
+      .withMessage("Gender must be 'male', 'female'"),
+
     body("email")
       .trim()
       .notEmpty()
@@ -25,52 +30,40 @@ validate.studentValidationRules = () => {
       .isEmail()
       .withMessage("A valid email address is required.")
       .custom(async (value) => {
-        const user = await userModel.findOne({ email: value });
-        if (user) {
+        const exists = await staffModel.exists({ email: value });
+        if (exists) {
           return Promise.reject("Email already in use");
         }
       })
       .normalizeEmail(),
-
-    body("gender")
-      .optional()
-      .isIn(["male", "female"])
-      .withMessage("Gender must be 'male', 'female'"),
 
     body("phone")
       .optional()
       .isMobilePhone("any")
       .withMessage("Invalid phone number"),
 
-    body("dateOfBirth")
-      .notEmpty()
-      .withMessage("Date of birth is required")
-      .isISO8601()
-      .withMessage("Date of birth must be a valid ISO 8601 date"),
-
-    body("classId")
-      .notEmpty()
-      .withMessage("Class ID is required")
-      .isMongoId()
-      .withMessage("Class ID must be a valid MongoDB ObjectId"),
-
-    body("guardianId")
-      .optional()
-      .isMongoId()
-      .withMessage("Guardian ID must be a valid MongoDB ObjectId"),
-
-    body("enrollmentDate")
+    body("hireDate")
       .optional()
       .isISO8601()
-      .withMessage("Enrollment date must be a valid ISO 8601 date"),
+      .withMessage("Hire date must be a valid ISO 8601 date"),
+
+    body("address")
+      .optional()
+      .isObject()
+      .withMessage("Address must be a object"),
+
+    body("qualification")
+      .optional()
+      .isString()
+      .withMessage("Qualification must be a string"),
 
     body("status")
       .optional()
-      .isIn(["active", "inactive", "graduated", "suspended"])
+      .isIn(["active", "inactive", "suspended", "retired"])
       .withMessage("Invalid status value"),
   ];
 };
-
+//Validate request
 validate.validateRequest = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
