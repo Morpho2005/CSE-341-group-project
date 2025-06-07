@@ -24,12 +24,6 @@ validate.studentValidationRules = () => {
       .withMessage("Email address is required.")
       .isEmail()
       .withMessage("A valid email address is required.")
-      .custom(async (value) => {
-        const user = await studentModel.findOne({ email: value });
-        if (user) {
-          return Promise.reject("Email already in use");
-        }
-      })
       .normalizeEmail(),
 
     body("gender")
