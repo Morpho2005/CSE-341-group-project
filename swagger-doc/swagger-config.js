@@ -13,7 +13,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5500/api",
+        url: "https://cse-341-group-project-mfvd.onrender.com/api",
       },
     ],
     components: {

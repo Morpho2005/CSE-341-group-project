@@ -22,8 +22,8 @@ const config = {
     title: "School management API",
     description: "API for school admin storage and Management",
   },
-  host: "localhost:5500",
-  schemes: ["http"],
+  host: "cse-341-group-project-mfvd.onrender.com",
+  schemes: ["https"],
   components: {
     schemas: schemas,
   },
