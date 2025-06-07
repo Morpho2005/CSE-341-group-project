@@ -5,10 +5,10 @@
     "description": "API for school admin storage and Management",
     "version": "1.0.0"
   },
-  "host": "localhost:5500",
+  "host": "cse-341-group-project-mfvd.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
