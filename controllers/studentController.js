@@ -18,6 +18,8 @@ class StudentController extends BaseController {
         classId,
         degreeId,
         address,
+        enrollmentDate,
+        status,
       } = req.body;
 
       const newStudent = {
@@ -29,6 +31,8 @@ class StudentController extends BaseController {
         classId: new ObjectId(classId),
         degreeId: degreeId ? new ObjectId(degreeId) : null,
         address,
+        enrollmentDate: new Date(enrollmentDate),
+        status,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const studentController = require("../controllers/studentController");
+const studentValidator = require("../utilities/student-validator");
+const Util = require("../utilities");
 
 /**
  * @swagger
@@ -25,7 +27,7 @@ const studentController = require("../controllers/studentController");
  *               items:
  *                 $ref: '#/components/schemas/student'
  */
-router.get("/", studentController.getAll);
+router.get("/", Util.handleErrors(studentController.getAll));
 
 /**
  * @swagger
@@ -50,7 +52,7 @@ router.get("/", studentController.getAll);
  *       404:
  *         description: Student not found
  */
-router.get("/:id", studentController.getById);
+router.get("/:id", Util.handleErrors(studentController.getById));
 
 /**
  * @swagger
@@ -83,7 +85,12 @@ router.get("/:id", studentController.getById);
  *       404:
  *         description: Student not found
  */
-router.put("/:id", studentController.updateById);
+router.put(
+  "/:id",
+  studentValidator.studentValidationRules(),
+  studentValidator.validateRequest,
+  Util.handleErrors(studentController.updateById)
+);
 
 /**
  * @swagger
@@ -104,7 +111,7 @@ router.put("/:id", studentController.updateById);
  *       404:
  *         description: Student not found
  */
-router.delete("/:id", studentController.deleteById);
+router.delete("/:id", Util.handleErrors(studentController.deleteById));
 
 /**
  * @swagger
@@ -128,6 +135,11 @@ router.delete("/:id", studentController.deleteById);
  *       400:
  *         description: Invalid input
  */
-router.post("/", studentController.createStudent);
+router.post(
+  "/",
+  studentValidator.studentValidationRules(),
+  studentValidator.validateRequest,
+  Util.handleErrors(studentController.createStudent)
+);
 
 module.exports = router;
