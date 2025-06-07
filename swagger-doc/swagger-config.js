@@ -1,6 +1,7 @@
 const swaggerDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const studentSchema = require("./schemas/studentSchema");
+const staffSchema = require("./schemas/staffSchema");
 
 const options = {
   definition: {
@@ -18,6 +19,7 @@ const options = {
     components: {
       schemas: {
         student: studentSchema,
+        staff: staffSchema,
       },
     },
   },
