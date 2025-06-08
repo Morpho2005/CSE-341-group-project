@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const staffModel = require("../models/staffModel");
+const { uniqueEmailValidator } = require("../utilities/emailValidator");
 const validate = {};
 
 validate.staffValidationRules = () => {
@@ -29,12 +30,7 @@ validate.staffValidationRules = () => {
       .withMessage("Email address is required.")
       .isEmail()
       .withMessage("A valid email address is required.")
-      .custom(async (value) => {
-        const exists = await staffModel.exists({ email: value });
-        if (exists) {
-          return Promise.reject("Email already in use");
-        }
-      })
+      .custom(uniqueEmailValidator(staffModel))
       .normalizeEmail(),
 
     body("phone")

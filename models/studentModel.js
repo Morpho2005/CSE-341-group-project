@@ -1,17 +1,35 @@
 const BaseModel = require("./baseModel");
+const { ObjectId } = require("mongodb");
 
 class StudentModel extends BaseModel {
   constructor() {
     super("students");
   }
 
-  async create(studentData) {
-    try {
-      return await super.create(studentData);
-    } catch (error) {
-      console.error("Student creation error:", error);
-      throw error;
+  // Custom updateById to override the once at baseModel
+  async updateById(id, data) {
+    if (!data || typeof data !== "object") {
+      throw new Error("Invalid update data");
     }
+
+    if (!ObjectId.isValid(id)) {
+      throw new Error("Invalid ObjectId format");
+    }
+
+    // Added updatedAt field
+    data.updatedAt = new Date();
+
+    const objectId = ObjectId.createFromHexString(id);
+    const result = await this.collection.updateOne(
+      { _id: objectId },
+      { $set: data }
+    );
+
+    if (result.matchedCount === 0) {
+      throw new Error("Document not found");
+    }
+
+    return result.modifiedCount > 0;
   }
 
   async getByEmail(email) {
