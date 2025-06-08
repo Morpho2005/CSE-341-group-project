@@ -7,7 +7,7 @@ const express = require("express");
 const app = express();
 const routes = require("./routes");
 const { connectDB } = require("./data/database");
-const setupSwagger = require("./swagger-doc/swagger-config");
+const setupSwagger = require("./swagger");
 const cors = require("cors");
 const errorMiddleware = require("./middleware/errorMiddleware");
 

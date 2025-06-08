@@ -59,13 +59,5 @@ module.exports = {
       description: "Timestamp when the student account was last updated",
     },
   },
-  required: [
-    "firstName",
-    "lastName",
-    "email",
-    "dateOfBirth",
-    "classId",
-    "degreeId",
-    "address",
-  ],
+  required: ["firstName", "lastName", "email", "dateOfBirth", "address"],
 };
