@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const studentModel = require("../models/studentModel");
+const { uniqueEmailValidator } = require("../utilities/emailValidator");
 const validate = {};
 
 validate.studentValidationRules = () => {
@@ -24,12 +25,7 @@ validate.studentValidationRules = () => {
       .withMessage("Email address is required.")
       .isEmail()
       .withMessage("A valid email address is required.")
-      .custom(async (value) => {
-        const exists = await studentModel.exists({ email: value });
-        if (exists) {
-          return Promise.reject("Email already in use");
-        }
-      })
+      .custom(uniqueEmailValidator(studentModel))
       .normalizeEmail(),
 
     body("gender")

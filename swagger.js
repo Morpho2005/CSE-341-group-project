@@ -40,6 +40,7 @@ const specs = swaggerJsdoc(options);
 const yamlOutputPath = path.join(__dirname, "swagger", "swagger-output.yaml");
 fs.writeFileSync(yamlOutputPath, yaml.dump(specs));
 
+// Export for use in Express
 module.exports = (app) => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
