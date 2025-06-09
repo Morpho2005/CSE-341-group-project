@@ -7,6 +7,10 @@ class BaseController {
 
   getAll = asyncHandler(async (req, res) => {
     const data = await this.model.getAll();
+    if (!data || data.length === 0) {
+      res.status(404);
+      throw new Error("No resources found");
+    }
     res.status(200).json({
       success: true,
       count: data.length,
