@@ -47,6 +47,10 @@ class StaffController extends BaseController {
       };
 
       const createdStaff = await this.model.create(newStaff);
+      if (!createdStaff) {
+        res.status(400);
+        throw new Error("Failed to create staff");
+      }
       res.status(201).json({
         status: "Staff has been created",
         data: createdStaff,
