@@ -1,62 +1,68 @@
-const { body, validationResult } = require("express-validator");
-const staffModel = require("../models/staffModel");
-const { uniqueEmailValidator } = require("../utilities/emailValidator");
+const { body, validationResult } = require('express-validator');
+const staffModel = require('../models/staffModel');
 const validate = {};
 
 validate.staffValidationRules = () => {
   return [
-    body("firstName")
+    body('firstName')
       .notEmpty()
-      .withMessage("First name is required")
+      .withMessage('First name is required')
       .isLength({ min: 2 })
-      .withMessage("First name must be at least 2 characters long.")
+      .withMessage('First name must be at least 2 characters long.')
       .trim(),
 
-    body("lastName")
+    body('lastName')
       .notEmpty()
-      .withMessage("Last name is required")
+      .withMessage('Last name is required')
       .isLength({ min: 2 })
-      .withMessage("Last name must be at least 2 characters long.")
+      .withMessage('Last name must be at least 2 characters long.')
       .trim(),
 
-    body("gender")
+    body('gender')
       .optional()
-      .isIn(["male", "female"])
-      .withMessage("Gender must be 'male', 'female'"),
+      .isIn(['male', 'female', 'other'])
+      .withMessage("Gender must be 'male', 'female', or 'other'"),
 
-    body("email")
+    body('email')
       .trim()
       .notEmpty()
-      .withMessage("Email address is required.")
+      .withMessage('Email address is required.')
       .isEmail()
-      .withMessage("A valid email address is required.")
-      .custom(uniqueEmailValidator(staffModel))
+      .withMessage('A valid email address is required.')
+      .custom(async value => {
+        const user = await staffModel.findOne({
+          email: value,
+        });
+        if (user) {
+          return Promise.reject('Email already in use');
+        }
+      })
       .normalizeEmail(),
 
-    body("phone")
+    body('phone')
       .optional()
-      .isMobilePhone("any")
-      .withMessage("Invalid phone number"),
+      .isMobilePhone('any')
+      .withMessage('Invalid phone number'),
 
-    body("hireDate")
+    body('hireDate')
       .optional()
       .isISO8601()
-      .withMessage("Hire date must be a valid ISO 8601 date"),
+      .withMessage('Hire date must be a valid ISO 8601 date'),
 
-    body("address")
+    body('address')
       .optional()
       .isObject()
-      .withMessage("Address must be a object"),
+      .withMessage('Address must be a object'),
 
-    body("qualification")
+    body('qualification')
       .optional()
       .isString()
-      .withMessage("Qualification must be a string"),
+      .withMessage('Qualification must be a string'),
 
-    body("status")
+    body('status')
       .optional()
-      .isIn(["active", "inactive", "suspended", "retired"])
-      .withMessage("Invalid status value"),
+      .isIn(['active', 'inactive', 'suspended', 'retired'])
+      .withMessage('Invalid status value'),
   ];
 };
 //Validate request

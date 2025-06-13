@@ -1,76 +1,94 @@
+// controllers/baseController.js
 const asyncHandler = require("express-async-handler");
 
 class BaseController {
   constructor(model) {
     this.model = model;
+
+    // Bind methods to ensure `this` is preserved
+    this.getAll = asyncHandler(this.getAll.bind(this));
+    this.getById = asyncHandler(this.getById.bind(this));
+    this.createOne = asyncHandler(this.createOne.bind(this));
+    this.createMany = asyncHandler(this.createMany.bind(this));
+    this.update = asyncHandler(this.update.bind(this));
+    this.delete = asyncHandler(this.delete.bind(this));
   }
 
-  getAll = asyncHandler(async (req, res) => {
-    const data = await this.model.getAll();
-    if (!data || data.length === 0) {
+  async getAll(req, res) {
+    const documents = await this.model.find();
+    if (!documents) {
       res.status(404);
-      throw new Error("No resources found");
+      throw new Error("No documents found");
     }
     res.status(200).json({
       success: true,
-      count: data.length,
-      data,
+      count: documents.length,
+      data: documents,
     });
-  });
+  }
 
-  getById = asyncHandler(async (req, res) => {
-    const data = await this.model.getById(req.params.id);
-    if (!data) {
+  async getById(req, res) {
+    const { id } = req.params;
+    const document = await this.model.findById(id);
+    if (!document) {
       res.status(404);
-      throw new Error("Resource not found");
+      throw new Error("Document not found");
     }
-
     res.status(200).json({
       success: true,
-      data,
+      data: document,
     });
-  });
+  }
 
-  create = asyncHandler(async (req, res) => {
-    const data = await this.model.create(req.body);
-    if (!data) {
+  async createOne(req, res) {
+    const document = await this.model.create(req.body);
+    if (!document) {
       res.status(400);
-      throw new Error("Failed to create resource");
+      throw new Error("Invalid data");
     }
-
     res.status(201).json({
       success: true,
-      message: "Resource created successfully",
-      data,
+      data: document,
     });
-  });
+  }
 
-  updateById = asyncHandler(async (req, res) => {
-    const updated = await this.model.updateById(req.params.id, req.body);
-    if (!updated) {
+  //createMany
+  async createMany(req, res) {
+    const documents = await this.model.insertMany(req.body);
+    res.status(201).json({
+      success: true,
+      data: documents,
+    });
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const document = await this.model.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!document) {
       res.status(404);
-      throw new Error("Failed to update: Resource not found");
+      throw new Error("Document not found");
     }
-
     res.status(200).json({
       success: true,
-      message: "Resource updated successfully",
-      data: updated,
+      data: document,
     });
-  });
+  }
 
-  deleteById = asyncHandler(async (req, res) => {
-    const deleted = await this.model.deleteById(req.params.id);
-    if (!deleted) {
+  async delete(req, res) {
+    const { id } = req.params;
+    const document = await this.model.findByIdAndDelete(id);
+    if (!document) {
       res.status(404);
-      throw new Error("Failed to delete: Resource not found");
+      throw new Error("Document not found");
     }
-
     res.status(200).json({
       success: true,
-      message: "Resource deleted successfully",
+      data: {},
     });
-  });
+  }
 }
 
 module.exports = BaseController;

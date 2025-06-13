@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const studentController = require("../controllers/studentController");
-const studentValidator = require("../utilities/student-validator");
-const Util = require("../utilities");
+const studentController = require('../controllers/studentController');
+const studentValidator = require('../utilities/student-validator');
+const Util = require('../utilities');
 
 /**
  * @swagger
@@ -27,7 +27,7 @@ const Util = require("../utilities");
  *               items:
  *                 $ref: '#/components/schemas/student'
  */
-router.get("/", Util.handleErrors(studentController.getAll));
+router.get('/', Util.handleErrors(studentController.getAll));
 
 /**
  * @swagger
@@ -52,7 +52,7 @@ router.get("/", Util.handleErrors(studentController.getAll));
  *       404:
  *         description: Student not found
  */
-router.get("/:id", Util.handleErrors(studentController.getById));
+router.get('/:id', Util.handleErrors(studentController.getById));
 
 /**
  * @swagger
@@ -86,10 +86,10 @@ router.get("/:id", Util.handleErrors(studentController.getById));
  *         description: Student not found
  */
 router.put(
-  "/:id",
+  '/:id',
   studentValidator.studentValidationRules(),
   studentValidator.validateRequest,
-  Util.handleErrors(studentController.updateById)
+  Util.handleErrors(studentController.update),
 );
 
 /**
@@ -111,7 +111,7 @@ router.put(
  *       404:
  *         description: Student not found
  */
-router.delete("/:id", Util.handleErrors(studentController.deleteById));
+router.delete('/:id', Util.handleErrors(studentController.delete));
 
 /**
  * @swagger
@@ -136,10 +136,10 @@ router.delete("/:id", Util.handleErrors(studentController.deleteById));
  *         description: Invalid input
  */
 router.post(
-  "/",
+  '/',
   studentValidator.studentValidationRules(),
   studentValidator.validateRequest,
-  Util.handleErrors(studentController.createStudent)
+  Util.handleErrors(studentController.createOne),
 );
 
 module.exports = router;
