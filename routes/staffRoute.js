@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const staffController = require("../controllers/staffController");
-const staffValidator = require("../utilities/staff-validator");
-const Util = require("../utilities");
+const staffController = require('../controllers/staffController');
+const staffValidator = require('../utilities/staff-validator');
+const Util = require('../utilities');
 
 /**
  * @swagger
@@ -28,7 +28,7 @@ const Util = require("../utilities");
  *                 $ref: '#/components/schemas/staff'
  */
 
-router.get("/", Util.handleErrors(staffController.getAll));
+router.get('/', Util.handleErrors(staffController.getAll));
 
 /**
  * @swagger
@@ -53,7 +53,7 @@ router.get("/", Util.handleErrors(staffController.getAll));
  *       404:
  *         description: Staff not found
  */
-router.get("/:id", Util.handleErrors(staffController.getById));
+router.get('/:id', Util.handleErrors(staffController.getById));
 
 /**
  * @swagger
@@ -78,10 +78,10 @@ router.get("/:id", Util.handleErrors(staffController.getById));
  *         description: Invalid input
  */
 router.post(
-  "/",
+  '/',
   staffValidator.staffValidationRules(),
   staffValidator.validateRequest,
-  Util.handleErrors(staffController.createStaff)
+  Util.handleErrors(staffController.createOne),
 );
 
 /**
@@ -116,10 +116,10 @@ router.post(
  *         description: Staff not found
  */
 router.put(
-  "/:id",
+  '/:id',
   staffValidator.staffValidationRules(),
   staffValidator.validateRequest,
-  Util.handleErrors(staffController.updateById)
+  Util.handleErrors(staffController.update),
 );
 
 /**
@@ -141,6 +141,6 @@ router.put(
  *       404:
  *         description: Staff not found
  */
-router.delete("/:id", Util.handleErrors(staffController.deleteById));
+router.delete('/:id', Util.handleErrors(staffController.delete));
 
 module.exports = router;

@@ -1,40 +1,60 @@
-const BaseModel = require("./baseModel");
-const { ObjectId } = require("mongodb");
-
-class StudentModel extends BaseModel {
-  constructor() {
-    super("students");
-  }
-
-  // Custom updateById to override the once at baseModel
-  async updateById(id, data) {
-    if (!data || typeof data !== "object") {
-      throw new Error("Invalid update data");
-    }
-
-    if (!ObjectId.isValid(id)) {
-      throw new Error("Invalid ObjectId format");
-    }
-
-    // Added updatedAt field
-    data.updatedAt = new Date();
-
-    const objectId = ObjectId.createFromHexString(id);
-    const result = await this.collection.updateOne(
-      { _id: objectId },
-      { $set: data }
-    );
-
-    if (result.matchedCount === 0) {
-      throw new Error("Document not found");
-    }
-
-    return result.modifiedCount > 0;
-  }
-
-  async getByEmail(email) {
-    return await this.getByField("email", email);
-  }
-}
-
-module.exports = new StudentModel();
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const studentSchema = new Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'other'],
+      required: true,
+    },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+    classId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Class',
+      required: true,
+    },
+    degreeId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Degree',
+      required: false,
+    },
+    address: {
+      street: { type: String, trim: true },
+      city: { type: String, trim: true },
+      state: { type: String, trim: true },
+      country: { type: String, trim: true },
+      zip: { type: String, trim: true },
+    },
+    enrollmentDate: {
+      type: Date,
+      default: Date.now,
+    },
+    password: {
+      type: String,
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive', 'suspended'],
+      default: 'active',
+    },
+  },
+  { timestamps: true },
+);
+const Student = mongoose.model('Student', studentSchema);
+module.exports = Student;

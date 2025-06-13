@@ -1,58 +1,64 @@
-const { body, validationResult } = require("express-validator");
-const studentModel = require("../models/studentModel");
-const { uniqueEmailValidator } = require("../utilities/emailValidator");
+const { body, validationResult } = require('express-validator');
+const studentModel = require('../models/studentModel');
 const validate = {};
 
 validate.studentValidationRules = () => {
   return [
-    body("firstName")
+    body('firstName')
       .notEmpty()
-      .withMessage("First name is required")
+      .withMessage('First name is required')
       .isLength({ min: 2 })
-      .withMessage("First name must be at least 2 characters long.")
+      .withMessage('First name must be at least 2 characters long.')
       .trim(),
 
-    body("lastName")
+    body('lastName')
       .notEmpty()
-      .withMessage("Last name is required")
+      .withMessage('Last name is required')
       .isLength({ min: 2 })
-      .withMessage("Last name must be at least 2 characters long.")
+      .withMessage('Last name must be at least 2 characters long.')
       .trim(),
 
-    body("email")
+    body('email')
       .trim()
       .notEmpty()
-      .withMessage("Email address is required.")
+      .withMessage('Email address is required.')
       .isEmail()
-      .withMessage("A valid email address is required.")
-      .custom(uniqueEmailValidator(studentModel))
+      .withMessage('A valid email address is required.')
+      .custom(async value => {
+        const user = await studentModel.findOne({
+          email: value,
+        });
+        if (user) {
+          return Promise.reject('Email already in use');
+        }
+      })
       .normalizeEmail(),
 
-    body("gender")
+    body('gender')
       .optional()
-      .isIn(["male", "female"])
+      .isIn(['male', 'female'])
       .withMessage("Gender must be 'male', 'female'"),
 
-    body("phone")
+    body('phone')
       .optional()
-      .isMobilePhone("any")
-      .withMessage("Invalid phone number"),
+      .isMobilePhone('any')
+      .withMessage('Invalid phone number'),
 
-    body("dateOfBirth")
+    body('dateOfBirth')
       .notEmpty()
-      .withMessage("Date of birth is required")
+      .withMessage('Date of birth is required')
       .isISO8601()
-      .withMessage("Date of birth must be a valid ISO 8601 date"),
+      .withMessage('Date of birth must be a valid ISO 8601 date'),
 
-    body("enrollmentDate")
+    body('enrollmentDate')
       .optional()
       .isISO8601()
-      .withMessage("Enrollment date must be a valid ISO 8601 date"),
+      .withMessage('Enrollment date must be a valid ISO 8601 date'),
 
-    body("status")
+    body('status')
       .optional()
-      .isIn(["active", "inactive", "graduated", "suspended"])
-      .withMessage("Invalid status value"),
+      .isIn(['active', 'inactive', 'graduated', 'suspended'])
+      .withMessage('Invalid status value'),
   ];
 };
 
