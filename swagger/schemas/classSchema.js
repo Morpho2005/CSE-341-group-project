@@ -9,7 +9,7 @@ module.exports = {
     title: {
         type: "string",
         description: "The title for the class",
-        example: "Into to calculus",
+        example: "Intro to calculus",
     },
     code: {
         type: "string",

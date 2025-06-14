@@ -16,7 +16,12 @@ validate.classValidationRules = () => {
             .withMessage('Code is required')
             .isLength(6)
             .withMessage('Code must be exactly 6 characters long')
-            .trim(),
+            .custom(value => {
+                const pattern = new RegExp("[A-Za-z]{3}[0-9]{3}")
+                if (!pattern.test(value)){
+                    throw new Error("code must 6 character string in the format 'yyyxxx' where y is any letter and x is any number")
+                }
+            }),
         
         body('room')
             .notEmpty()
@@ -26,8 +31,7 @@ validate.classValidationRules = () => {
                 if (!pattern.test(value)) {
                     throw new Error("Room must be in format 'Block y - Room x' where y is any capital letter and x is any number with 2 digits");
                 }
-            })
-            .trim(),
+            }),
 
         body('schedule')
             .notEmpty()
@@ -37,8 +41,7 @@ validate.classValidationRules = () => {
                 if (!pattern.test(value)) {
                     throw new Error("Room must be in format \"misc x:xx - x:xx\" ");
                 }
-            })
-            .trim(),
+            }),
     ]
 }
 
