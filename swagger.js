@@ -9,6 +9,7 @@ const path = require('path');
 const studentSchema = require('./swagger/schemas/studentSchema');
 const staffSchema = require('./swagger/schemas/staffSchema');
 const classSchema = require('./swagger/schemas/classSchema');
+const degreeSchema = require('./swagger/schemas/degreeSchema');
 
 // Swagger definition setup
 const options = {
@@ -29,7 +30,7 @@ const options = {
         student: studentSchema,
         staff: staffSchema,
         class: classSchema,
-        
+        degree: degreeSchema,
       },
     },
   },
