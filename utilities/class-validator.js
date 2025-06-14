@@ -21,13 +21,22 @@ validate.classValidationRules = () => {
         body('room')
             .notEmpty()
             .withMessage('Room is required')
-            .trim(),
+            .trim()
+            .custom(value => {
+                const pattern = new RegExp("Block [A-Z] \- Room [0-9]|[0-9]{2}")
+                if (!pattern.test(value)) {
+                    throw new Error("Room must be in format \"Block y - Room x\" where y is any capital letter and x is any number with 2 or less digits");
+                }
+            }),
 
         body('schedule')
             .notEmpty()
             .withMessage('Schedule is required')
             .custom(value => {
-                const pattern = /Block [A-Z] \- Room [0-9]|[0-9]{2}/
+                const pattern = new RegExp("[A-Za-z{3}] [0-9|0-9{2}].[0-9{2}] \- [0-9|0-9{2}].[0-9{2}]")
+                if (!pattern.test(value)) {
+                    throw new Error("Room must be in format \"misc x:xx - x:xx\" ");
+                }
             })
 
     ]
