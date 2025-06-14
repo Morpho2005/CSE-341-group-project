@@ -24,13 +24,15 @@ const studentSchema = new Schema(
       type: Date,
       required: true,
     },
-    classId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Class',
-      required: true,
-    },
+    classId: [
+      {
+        type: String,
+        ref: 'Class',
+        required: false,
+      },
+    ],
     degreeId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'Degree',
       required: false,
     },
