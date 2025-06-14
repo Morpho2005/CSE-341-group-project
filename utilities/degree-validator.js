@@ -2,7 +2,7 @@ const { body, validationResult } = require('express-validator');
 const degreeModel = require('../models/degreeModel');
 const validate = {};
 
-validate.classValidationRules = () => {
+validate.degreeValidationRules = () => {
     return [
         body('name')
             .notEmpty()
