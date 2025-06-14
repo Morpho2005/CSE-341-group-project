@@ -11,6 +11,6 @@ router.get("/", (req, res) => {
 router.use("/students", studentsRoute);
 router.use("/staff", staffRoute);
 router.use("/class", classRoute);
-//router.use("./degree", degreeRoute);
+router.use("./degree", degreeRoute);
 
 module.exports = router;

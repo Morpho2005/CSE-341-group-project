@@ -25,7 +25,7 @@ validate.classValidationRules = () => {
             .custom(value => {
                 const pattern = new RegExp("Block [A-Z] \- Room [0-9]|[0-9]{2}")
                 if (!pattern.test(value)) {
-                    throw new Error("Room must be in format \"Block y - Room x\" where y is any capital letter and x is any number with 2 or less digits");
+                    throw new Error("Room must be in format 'Block y - Room x' where y is any capital letter and x is any number with 2 or less digits");
                 }
             }),
 

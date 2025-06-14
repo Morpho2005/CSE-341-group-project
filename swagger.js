@@ -8,6 +8,7 @@ const path = require('path');
 // Load custom schemas
 const studentSchema = require('./swagger/schemas/studentSchema');
 const staffSchema = require('./swagger/schemas/staffSchema');
+const classSchema = require('./swagger/schemas/classSchema');
 
 // Swagger definition setup
 const options = {
@@ -27,6 +28,8 @@ const options = {
       schemas: {
         student: studentSchema,
         staff: staffSchema,
+        class: classSchema,
+        
       },
     },
   },
