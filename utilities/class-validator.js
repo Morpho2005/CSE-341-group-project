@@ -20,6 +20,8 @@ validate.classValidationRules = () => {
                 const pattern = new RegExp("[A-Za-z]{3}[0-9]{3}")
                 if (!pattern.test(value)){
                     throw new Error("code must 6 character string in the format 'yyyxxx' where y is any letter and x is any number")
+                } else {
+                    next()
                 }
             }),
         
@@ -30,6 +32,8 @@ validate.classValidationRules = () => {
                 const pattern = new RegExp("Block [A-Z] - Room [0-9{2}]")
                 if (!pattern.test(value)) {
                     throw new Error("Room must be in format 'Block y - Room x' where y is any capital letter and x is any number with 2 digits");
+                } else {
+                    next()
                 }
             }),
 
@@ -40,6 +44,8 @@ validate.classValidationRules = () => {
                 const pattern = new RegExp("[A-Z]{3} [0-9]{2}:[0-9]{2} - [0-9]{2}:[0-9]{2}")
                 if (!pattern.test(value)) {
                     throw new Error("Room must be in format \"misc x:xx - x:xx\" ");
+                } else {
+                    next()
                 }
             }),
     ]
