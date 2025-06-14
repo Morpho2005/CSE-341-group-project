@@ -21,7 +21,7 @@ validate.classValidationRules = () => {
                 if (!pattern.test(value)){
                     throw new Error("code must 6 character string in the format 'yyyxxx' where y is any letter and x is any number")
                 } else {
-                    next()
+                    return
                 }
             }),
         
@@ -33,7 +33,7 @@ validate.classValidationRules = () => {
                 if (!pattern.test(value)) {
                     throw new Error("Room must be in format 'Block y - Room x' where y is any capital letter and x is any number with 2 digits");
                 } else {
-                    next()
+                    return
                 }
             }),
 
@@ -45,7 +45,7 @@ validate.classValidationRules = () => {
                 if (!pattern.test(value)) {
                     throw new Error("Room must be in format \"misc x:xx - x:xx\" ");
                 } else {
-                    next()
+                    return
                 }
             }),
     ]
