@@ -4,14 +4,14 @@ const app = require('../app');
 const mongoose = require('mongoose');
 const Staff = require('../models/staffModel');
 
-// Set overall Jest timeout (default is 5000ms)
-jest.setTimeout(10000); // 10 seconds for all tests
+// Set overall Jest timeout
+jest.setTimeout(10000);
 
 describe('Staff Routes', () => {
   beforeAll(async () => {
     try {
       await mongoose.connect(process.env.MONGO_URI_TEST, {
-        serverSelectionTimeoutMS: 5000, // 5 seconds for initial connection
+        serverSelectionTimeoutMS: 5000,
       });
     } catch (err) {
       console.error('Database connection error:', err);
@@ -21,7 +21,7 @@ describe('Staff Routes', () => {
 
   beforeEach(async () => {
     // Add timeout for setup
-    await Staff.deleteMany({}).maxTimeMS(5000); // 5 seconds max for delete
+    await Staff.deleteMany({}).maxTimeMS(5000);
 
     await Staff.create({
       firstName: 'John',
@@ -47,10 +47,10 @@ describe('Staff Routes', () => {
   });
 
   it('should get all staff members', async () => {
-    const response = await request(app).get('/api/staff').timeout(5000); // 5 seconds timeout for this request
+    const res = await request(app).get('/api/staff').timeout(5000);
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toBeInstanceOf(Object);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeInstanceOf(Object);
   });
 
   it('should get a single staff member by ID', async () => {
@@ -76,11 +76,11 @@ describe('Staff Routes', () => {
       password: 'tempPassword',
     });
 
-    const response = await request(app)
+    const res = await request(app)
       .get(`/api/staff/${newStaff._id}`)
-      .timeout(5000); // 5 seconds timeout for this request
+      .timeout(5000);
 
-    expect(response.statusCode).toBe(200);
+    expect(res.statusCode).toBe(200);
   });
 
   afterAll(async () => {
