@@ -4,6 +4,9 @@ const cors = require('cors');
 const routes = require('./routes');
 const setupSwagger = require('./swagger');
 const errorMiddleware = require('./middleware/errorMiddleware');
+const passport = require('passport');
+const session = require('express-session');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 // Create Express app
 const app = express();
@@ -12,7 +15,25 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-const passport = require('passport');
+
+
+app.use(session({
+  secret: "secret",
+  resave: false ,
+  saveUninitialized: true ,
+}))
+
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
+    },
+    function(accessToken, refreshToken, profile, done) {
+        //User.findOrCreate({githubID: profile.id}, function (err, user) {
+            return done(null, profile)
+        //});
+    }
+));
 
 // Routes
 app.use('/api', routes);
