@@ -16,6 +16,13 @@ app.use(cors());
 // Routes
 app.use('/api', routes);
 
+app.get('/github/callback', passport.authenticate('github', {
+    failureRedirect: 'api-docs', session: false}),
+    (req, res) => {
+        req.session.user = req.user;
+        res.redirect('/api')
+})
+
 // Swagger documentation
 setupSwagger(app);
 
