@@ -12,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+const passport = require('passport');
 
 // Routes
 app.use('/api', routes);
