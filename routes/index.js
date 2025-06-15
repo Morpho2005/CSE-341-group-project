@@ -13,10 +13,7 @@ router.get('/login', passport.authenticate('github'), (req, res) => {});
 
 router.get('/logout', function(req, res, next) {
   req.session.destroy()
-  req.logout(function(err) {
-    if (err) {return next(err); }
-    res.redirect('/')
-  })
+  res.redirect('/')
 })
 
 router.use("/students", studentsRoute);
