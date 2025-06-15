@@ -3,6 +3,7 @@ const router = express.Router();
 const studentController = require('../controllers/studentController');
 const studentValidator = require('../utilities/student-validator');
 const Util = require('../utilities');
+const { isAuthenticated } = require('../utilities/authenticate');
 
 /**
  * @swagger
@@ -88,6 +89,7 @@ router.get('/:id', Util.handleErrors(studentController.getById));
 router.put(
   '/:id',
   studentValidator.studentValidationRules(),
+  isAuthenticated,
   studentValidator.validateRequest,
   Util.handleErrors(studentController.update),
 );
@@ -111,7 +113,7 @@ router.put(
  *       404:
  *         description: Student not found
  */
-router.delete('/:id', Util.handleErrors(studentController.delete));
+router.delete('/:id', isAuthenticated, Util.handleErrors(studentController.delete));
 
 /**
  * @swagger
@@ -138,6 +140,7 @@ router.delete('/:id', Util.handleErrors(studentController.delete));
 router.post(
   '/',
   studentValidator.studentValidationRules(),
+  isAuthenticated,
   studentValidator.validateRequest,
   Util.handleErrors(studentController.createOne),
 );

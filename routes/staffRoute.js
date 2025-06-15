@@ -3,6 +3,7 @@ const router = express.Router();
 const staffController = require('../controllers/staffController');
 const staffValidator = require('../utilities/staff-validator');
 const Util = require('../utilities');
+const { isAuthenticated } = require('../utilities/authenticate');
 
 /**
  * @swagger
@@ -80,6 +81,7 @@ router.get('/:id', Util.handleErrors(staffController.getById));
 router.post(
   '/',
   staffValidator.staffValidationRules(),
+  isAuthenticated,
   staffValidator.validateRequest,
   Util.handleErrors(staffController.createOne),
 );
@@ -118,6 +120,7 @@ router.post(
 router.put(
   '/:id',
   staffValidator.staffValidationRules(),
+  isAuthenticated,
   staffValidator.validateRequest,
   Util.handleErrors(staffController.update),
 );
@@ -141,6 +144,6 @@ router.put(
  *       404:
  *         description: Staff not found
  */
-router.delete('/:id', Util.handleErrors(staffController.delete));
+router.delete('/:id', isAuthenticated, Util.handleErrors(staffController.delete));
 
 module.exports = router;

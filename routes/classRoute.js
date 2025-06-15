@@ -3,6 +3,7 @@ const router = express.Router();
 const classController = require('../controllers/classController');
 const classValidator = require('../utilities/class-validator');
 const Util = require('../utilities');
+const { isAuthenticated } = require('../utilities/authenticate');
 
 /**
  * @swagger
@@ -78,6 +79,7 @@ router.get('/:id', Util.handleErrors(classController.getById));
  */
 router.post(
   '/',
+  isAuthenticated,
   classValidator.classValidationRules(),
   classValidator.validateRequest,
   Util.handleErrors(classController.createOne),
@@ -116,6 +118,7 @@ router.post(
  */
 router.put(
   '/:id',
+  isAuthenticated,
   classValidator.classValidationRules(),
   classValidator.validateRequest,
   Util.handleErrors(classController.update),
@@ -140,6 +143,6 @@ router.put(
  *       404:
  *         description: Class not found
  */
-router.delete('/:id', Util.handleErrors(classController.delete));
+router.delete('/:id', isAuthenticated, Util.handleErrors(classController.delete));
 
 module.exports = router;

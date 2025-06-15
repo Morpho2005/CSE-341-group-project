@@ -3,6 +3,7 @@ const router = express.Router();
 const degreeController = require('../controllers/degreeController');
 const degreeValidator = require('../utilities/degree-validator');
 const Util = require('../utilities');
+const { isAuthenticated } = require('../utilities/authenticate');
 
 /**
  * @swagger
@@ -79,6 +80,7 @@ router.get('/:id', Util.handleErrors(degreeController.getById));
 router.post(
   '/',
   degreeValidator.degreeValidationRules(),
+  isAuthenticated,
   degreeValidator.validateRequest,
   Util.handleErrors(degreeController.createOne),
 );
@@ -117,6 +119,7 @@ router.post(
 router.put(
   '/:id',
   degreeValidator.degreeValidationRules(),
+  isAuthenticated,
   degreeValidator.validateRequest,
   Util.handleErrors(degreeController.update),
 );
@@ -140,6 +143,6 @@ router.put(
  *       404:
  *         description: Ddegree not found
  */
-router.delete('/:id', Util.handleErrors(degreeController.delete));
+router.delete('/:id', isAuthenticated, Util.handleErrors(degreeController.delete));
 
 module.exports = router;
