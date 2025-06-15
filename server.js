@@ -1,10 +1,19 @@
 // server.js
 const app = require('./app');
 const connectDB = require('./data/database');
+const passport = require('passport');
+const session = require('express-session');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 require('dotenv').config();
 
 connectDB();
+
+app.use(session({
+  secret: "secret",
+  resave: false ,
+  saveUninitialized: true ,
+}))
 
 const PORT = process.env.PORT || 3000;
 
