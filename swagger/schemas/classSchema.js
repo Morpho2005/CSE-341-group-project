@@ -24,7 +24,7 @@ module.exports = {
     schedule: {
         type: "string",
         description: "The time at wich the class takes place",
-        example: "MWF 10:00AM - 11:00AM",
+        example: "MWF 10:00 - 11:00",
     }
   },
   required: [
