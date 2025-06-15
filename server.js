@@ -9,13 +9,25 @@ require('dotenv').config();
 
 connectDB();
 
+const PORT = process.env.PORT || 3000;
+
 app.use(session({
   secret: "secret",
   resave: false ,
   saveUninitialized: true ,
 }))
 
-const PORT = process.env.PORT || 3000;
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
+    },
+    function(accessToken, refreshToken, profile, done) {
+        //User.findOrCreate({githubID: profile.id}, function (err, user) {
+            return done(null, profile)
+        //});
+    }
+));
 
 async function startServer() {
   try {
