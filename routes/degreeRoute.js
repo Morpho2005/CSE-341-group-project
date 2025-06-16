@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../utilities/authenticate');
 /**
  * @swagger
  * tags:
- *   name: Ddegree
+ *   name: Degree
  *   description: API for degree information
  */
 
@@ -17,7 +17,7 @@ const { isAuthenticated } = require('../utilities/authenticate');
  * /degree:
  *   get:
  *     summary: Get all degreees
- *     tags: [Ddegree]
+ *     tags: [Degree]
  *     responses:
  *       200:
  *         description: List of degreees
@@ -35,7 +35,7 @@ router.get('/', Util.handleErrors(degreeController.getAll));
  * /degree/{id}:
  *   get:
  *     summary: Get a degree by ID
- *     tags: [Ddegree]
+ *     tags: [Degree]
  *     parameters:
  *       - in: path
  *         name: id
@@ -60,7 +60,7 @@ router.get('/:id', Util.handleErrors(degreeController.getById));
  * /degree:
  *   post:
  *     summary: Create a new degree
- *     tags: [Ddegree]
+ *     tags: [Degree]
  *     requestBody:
  *       required: true
  *       content:
@@ -90,7 +90,7 @@ router.post(
  * /degree/{id}:
  *   put:
  *     summary: Update a degree by ID
- *     tags: [Ddegree]
+ *     tags: [Degree]
  *     parameters:
  *       - in: path
  *         name: id
@@ -129,7 +129,7 @@ router.put(
  * /degree/{id}:
  *   delete:
  *     summary: Delete a degree by ID
- *     tags: [Ddegree]
+ *     tags: [Degree]
  *     parameters:
  *       - in: path
  *         name: id
